@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.header-element {
+  grid-row: 1;
+  grid-column: 1 / span 3;
+  top: 0;
+  bottom: 0;
+  position: sticky;
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+.index-header-footer {
+  padding: 15px;
+  text-align: center;
+  background: #37a3eb;
+  color: rgb(249, 249, 253);
+  font-size: 20px;
+}
+
+.footer-element {
+  grid-row: 3;
+  grid-column: 1 / span 3;
+
+}
+
+.header-wrapper {
+  display: grid;
+  border-style: solid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+footer {
+  text-align: center;
+  line-height: 35px;
+}
+
+a {
+  color: rgb(249, 249, 253);
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+.login-register-positioning {
+  grid-row: 1;
+  grid-column: 1 / span 2;
+}
+
+.working-positioning {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+.float-login-register {
+  padding-left: 20px;
+  font-size: 25px;
+  float: left;
+
+}
+
+.float-working {
+  font-size: 25px;
+  float: right;
+}
+.button-input:hover,
+.button-input:focus {
+    background-color: #07c;
+}
+.button-input {
+
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}

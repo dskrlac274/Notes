@@ -1,0 +1,114 @@
+.profile-wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    height: 100%;
+    height: 100vh;
+    padding-top: 40px;
+    padding-right: 200px;
+    padding-left: 200px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 300px;
+    grid-template-rows: 100px 100px 500px;
+}
+
+.profile-message {
+    font-weight: bold;
+    font-size: 50px;
+    text-align: center;
+    grid-row: 1;
+}
+
+.frame-position {
+    margin-left: 30px;
+    text-align: center;
+    grid-row: 2;
+    width: 240px;
+    height: 300px;
+}
+
+.form-wrapper {
+    display: grid;
+    grid-row: 3;
+    grid-template-rows: 220px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 15px;
+    grid-template-columns: 50px 200px 200px;
+    /*zadnji 30 je i za canpxcel changes i za submit changes*/
+}
+
+.first-name-label {
+    grid-row: 2;
+    grid-column: 2;
+    padding-left: 40px;
+}
+
+.first-name-input {
+    grid-row: 3;
+    grid-column: 2;
+
+}
+
+.last-name-label {
+    grid-row: 5;
+    grid-column: 2;
+
+
+}
+
+.last-name-input {
+    grid-row: 6;
+    grid-column: 2;
+
+
+}
+
+.username-label {
+    grid-row: 8;
+    grid-column: 2;
+
+
+}
+
+.username-input {
+    grid-row: 9;
+    grid-column: 2;
+
+
+}
+
+.email-label {
+    grid-row: 11;
+    grid-column: 2;
+
+}
+
+.email-input {
+    grid-row: 12;
+    grid-column: 2;
+
+}
+
+.password-label {
+    grid-row: 14;
+    grid-column: 2;
+
+}
+
+.password-input {
+    grid-row: 15;
+    grid-column: 2;
+
+}
+
+.button-submit-input {
+    grid-row: 17;
+    width: 150px;
+    grid-column: 1/2;
+}
+
+.button-cancel-input {
+    grid-row: 17;
+    width: 150px;
+    grid-column: 3;
+    margin-left: -90px;
+
+}

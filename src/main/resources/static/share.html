@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Share</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/header_footer.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/share.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/normalize.css'>
+
+
+</head>
+<body class="wrapper">
+    <div class="header-element index-header-footer">
+        <header class="header-wrapper">
+            <div class="login-register-positioning">
+                <div class="float-login-register">
+                    <a href="./login.html">Login</a>
+                    <a href="./register.html">Register</a>
+                </div>
+            </div>
+            <div class="working-positioning">
+                <div class="float-working">
+                    <a href="./myNotes.html">My notes</a>
+                    <a href="./share.html">Share</a>
+                    <a href="./profile.html">Profile</a>
+                </div>
+            </div>
+        </header>
+    </div>
+    <main class="main-wrapper">
+        <p class="share-message">Share</p>
+        <form class="form-wrapper">
+            <label class="choose-note-label" for="choose-note-label">Select note:</label>
+            <select id="notes-to-display" class="notes-select-poistion">
+                <option value="-1" selected>========= Select note =========</option>
+            </select>
+
+            <iframe class="iframe-position" src="" ></iframe>
+            <input class="button-pdf-input button-input" type="submit" id="button-pdf" name="button" value="Generate PDF">
+        </form>
+    </main>
+    <div class="footer-element index-header-footer">
+        <footer>
+            <a href="">Author</a>
+        </footer>
+    </div>
+</body>
+</html>
