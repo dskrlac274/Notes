@@ -7,6 +7,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/header_footer.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/login.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/normalize.css'>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="./js/login.js"></script>
 
@@ -22,6 +24,7 @@
             </div>
             <div class="working-positioning">
                 <div class="float-working">
+                    <a href="./index.html">Home</a>
                     <a href="./myNotes.html">My notes</a>
                     <a href="./share.html">Share</a>
                     <a href="./profile.html">Profile</a>
@@ -29,18 +32,18 @@
             </div>
         </header>
     </div>
-    <main class="login-wrapper">
+    <main class="login-wrapper" id="main-element">
         <p class="login-message">Login form</p>
-        <form class="form-wrapper">
+        <form class="form-wrapper" id="login-form" method="post" modelAttribute="userLoginFormData"> <!--action="http://localhost:8080/api/login"-->
             <label class="username-label" for="username">Username:</label>
             <input class="username-input" type="text" id="username" name="username">
             <label class="password-label" for="password">Password:</label>
             <input class="password-input" type="password" id="password" name="password">
-            <input class="button-input button-position" type="submit" id="button" name="button" value="Submit">
+            <input class="button-input button-position" type="submit" id="button-submit-user" name="button" value="Submit">
         </form>
     </main>
     <div class="footer-element index-header-footer">
-        <footer>
+        <footer id="footer-element">
             <a href="">Author</a>
         </footer>
     </div>

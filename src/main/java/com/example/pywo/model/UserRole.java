@@ -16,9 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "privileges")
-@EntityListeners(Auditable.class)
-public class UserRole /*extends Auditable<String>*/ {
+@EqualsAndHashCode(exclude = {"privileges","users"})
+public class UserRole {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

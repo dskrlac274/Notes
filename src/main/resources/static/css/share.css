@@ -1,6 +1,10 @@
+.wrapper{
+    display: grid;
+    grid-template-rows: 70px 1000px 70px;
+}
 .main-wrapper {
     display: grid;
-    grid-template-rows:  150px 850px;
+    grid-template-rows:  150px 704px 80px;
     grid-template-columns: 260px 200px 200px 200px 200px;
     margin-right: auto;
     margin-left: auto;
@@ -28,7 +32,7 @@
     display: grid;
     grid-row: 2;
     grid-column: 1 ;
-    grid-template-rows: 30px 30px 50px 400px 50px 200px 40px;
+    grid-template-rows: 30px 30px 50px 400px 50px 200px 40px ;
     grid-template-columns: 260px 200px 200px 200px;
 }
 
@@ -38,7 +42,7 @@
 }
 .iframe-position{
     grid-row: 2;
-    grid-column: 2/span4;
+    grid-column: 2/ 6;
     width: 800px;
     height: 700px;
 

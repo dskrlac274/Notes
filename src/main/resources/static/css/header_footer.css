@@ -46,7 +46,12 @@ a {
   margin-right: 20px;
   font-weight: 600;
 }
-
+footer p{
+  color: rgb(249, 249, 253);
+  text-decoration: initial;
+  margin-right: 20px;
+  font-weight: 600;
+}
 .login-register-positioning {
   grid-row: 1;
   grid-column: 1 / span 2;

@@ -1,16 +1,17 @@
 package com.example.pywo.controller;
 
 
-import com.example.pywo.model.User;
+import com.example.pywo.form.LoginForm;
+import com.example.pywo.jwt.JwtUtils;
 import com.example.pywo.security.AuthenticationResponse;
-import com.example.pywo.security.JwtTokenUtil;
 import com.example.pywo.security.MyAuthenticationProvider;
+import com.example.pywo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,14 +20,22 @@ public class LoginController {
     @Autowired
     private MyAuthenticationProvider myAuthenticationProvider;
     @Autowired
-    private JwtTokenUtil jwtUtil;
+    private JwtUtils jwtUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    private final UserService userService;
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> login(@ModelAttribute("userLoginFormData") LoginForm user) {
+
+
+        System.out.println("User data je:" + user.getPassword() + user.getUsername());
+
 
         Authentication authenticate = authenticationManager
                 .authenticate(
@@ -34,13 +43,13 @@ public class LoginController {
                                 user.getUsername(), user.getPassword()
                         )
                 );
-
-        String accessToken = jwtUtil.generateAccessToken(user);
-
+        System.out.println("USER JE:" + " " + userService.findUserByUsername(user.getUsername()).getPassword());
+        String accessToken = jwtUtil.generateAccessToken(userService.findUserByUsername(user.getUsername()));
+        System.out.println("dva");
         AuthenticationResponse response = new AuthenticationResponse(user.getUsername(),accessToken);
 
         return ResponseEntity.ok().body(response);
-    }
 
+    }
 
 }

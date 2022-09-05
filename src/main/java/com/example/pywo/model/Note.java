@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@EntityListeners(Auditable.class)
-public class Note /*extends Auditable<String>*/ {
+public class Note extends Auditable<String> {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;

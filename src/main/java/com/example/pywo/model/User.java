@@ -3,6 +3,7 @@ package com.example.pywo.model;
 
 import com.example.pywo.audit.Auditable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,8 +15,8 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"userRoles"})
 @Table(name = "users")
-@EntityListeners(Auditable.class)
 public class User /*extends Auditable<String> */{
     @Id
     @Column(name = "id", nullable = false)
@@ -30,8 +31,9 @@ public class User /*extends Auditable<String> */{
 
     private String email;
 
-    private String password;
     private String username;
+    private String password;
+
 
     //add image
     //add image to constructor
@@ -43,12 +45,12 @@ public class User /*extends Auditable<String> */{
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<UserRole> userRoles = new HashSet<>();
 
-    public User(String firstName, String lastName, String email, String password, String username,Set<UserRole> userRoles) {
+    public User(String firstName, String lastName, String email,String username, String password,Set<UserRole> userRoles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.username = username;
+        this.password = password;
         this.userRoles = userRoles;
     }
 }

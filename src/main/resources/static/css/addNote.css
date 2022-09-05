@@ -14,12 +14,13 @@
 .form-wrapper{
     display:grid;
     grid-row: 3;
+    grid-column: 1/7;
     grid-template-rows: 500px 28px 40px 100px 100px;
 }
 button{
     background-color: Transparent;
     background-repeat:no-repeat;
-    border: none; 
+    border: none;
 }
 button:hover{
     background-color: rgb(231, 224, 224);
@@ -50,14 +51,14 @@ textarea{
 }
 .button-underline-input{
     background-image: url('../assets/under4.webp');
-    height: 29px;
+    height: 25px;
     background-size: 26px;
     width: 25px;
 }
 .button-strike-input{
- 
+
     background-image: url('../assets/strike.png');
-    height: 27px;
+    height: 25px;
     background-size: 23px;
     width: 24px;
 }
