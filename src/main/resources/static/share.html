@@ -9,7 +9,8 @@
     <link rel='stylesheet' type='text/css' media='screen' href='css/share.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/normalize.css'>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./js/share.js"></script>
 
 </head>
 <body class="wrapper">
@@ -36,10 +37,10 @@
         <form class="form-wrapper">
             <label class="choose-note-label" for="choose-note-label">Select note:</label>
             <select id="choose-note-label" class="notes-select-poistion">
-                <option value="-1" selected>========= Select note =========</option>
+                <option value="-1" selected>======= Select note =======</option>
             </select>
 
-            <iframe class="iframe-position" src="" ></iframe>
+            <iframe class="iframe-position" id="iframe-for-pdf" ></iframe>
             <input class="button-pdf-input button-input" type="submit" id="button-pdf" name="button" value="Generate PDF">
         </form>
     </main>

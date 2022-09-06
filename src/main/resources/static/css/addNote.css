@@ -9,13 +9,13 @@
     display: grid;
     justify-content: center;
     grid-template-columns: 300px 300px 250px 200px 200px 220px;
-    grid-template-rows: 80px 50px 800px;
+    grid-template-rows: 50px 50px 800px;
 }
 .form-wrapper{
     display:grid;
     grid-row: 3;
     grid-column: 1/7;
-    grid-template-rows: 500px 28px 40px 100px 100px;
+    grid-template-rows: 50px 15px 500px 28px 40px 100px 100px;
 }
 button{
     background-color: Transparent;
@@ -72,12 +72,14 @@ line-height: 24px !important;
 }
 .text-editing-options-position{
     grid-row: 2;
-    /* display: flex; */
-    justify-content: center;
     padding-top: 10px;
 }
-.text-area-position{
+.title-input{
     grid-row: 1;
+    grid-column: 1;
+}
+.text-area-position{
+    grid-row: 3;
 }
 /* #bar { ovo je za pamćenje riječi i charachtera
     position: fixed;
@@ -91,12 +93,12 @@ line-height: 24px !important;
     z-index: 1000;
 } */
 .button-save-input{
-    grid-row: 3;
+    grid-row: 5;
     grid-column: 1;
     width: 200px;
 }
 .button-clear-input{
-    grid-row: 3;
+    grid-row: 5;
     grid-column: 1;
     width: 200px;
     margin-left: 250px;

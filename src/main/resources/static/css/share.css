@@ -1,7 +1,7 @@
-.wrapper{
+/*.wrapper{
     display: grid;
     grid-template-rows: 70px 1000px 70px;
-}
+}*/
 .main-wrapper {
     display: grid;
     grid-template-rows:  150px 704px 80px;

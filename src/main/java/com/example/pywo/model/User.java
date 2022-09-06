@@ -2,6 +2,8 @@ package com.example.pywo.model;
 
 
 import com.example.pywo.audit.Auditable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ public class User /*extends Auditable<String> */{
     //add image
     //add image to constructor
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value = "note-user")
     Set<Note> note = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

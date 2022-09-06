@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     var counter = 0;
     $("#button-submit-user").click(function(e) {

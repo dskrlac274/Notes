@@ -9,7 +9,7 @@
     justify-content: center;
     display: grid;
     grid-template-rows: 75px;
-    grid-template-columns: 300px 50px;
+    grid-template-columns: 280px 50px;
 }
 .my-notes-message {
     grid-row: 1;

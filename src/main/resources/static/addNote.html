@@ -10,55 +10,57 @@
     <link rel='stylesheet' type='text/css' media='screen' href='css/addNote.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/normalize.css'>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./js/addNote.js"></script>
 
 
 </head>
 
 <body class="wrapper">
-    <div class="header-element index-header-footer">
-        <header class="header-wrapper">
-            <div class="login-register-positioning">
-                <div class="float-login-register">
-                    <a href="./login.html">Login</a>
-                    <a href="./register.html">Register</a>
-                </div>
+<div class="header-element index-header-footer">
+    <header class="header-wrapper">
+        <div class="login-register-positioning">
+            <div class="float-login-register">
+                <a href="">Login</a>
+                <a href="">Register</a>
             </div>
-            <div class="working-positioning">
-                <div class="float-working">
-                    <a href="./index.html">Home</a>
-                    <a href="./myNotes.html">My notes</a>
-                    <a href="./share.html">Share</a>
-                    <a href="./profile.html">Profile</a>
-                </div>
-            </div>
-        </header>
-    </div>
-    <main class="add-note-wrapper ">
-        <p class="add-note-message">Add note</p>
-        <div class="text-editing-options-position">
-            <button class="button-bold-input" type="button" id="button-bold" name="button-bold" value="">
-                <button class="button-cursive-input" type="button" id="button-cursive" name="button-cursive"
-                    value=""></button>
-                <button class="button-underline-input" type="button" id="button-underline" name="button-underline"
-                    value=""></button>
-                <button class="button-strike-input" type="button" id="button-strike" name="button-strike"
-                    value=""></button>
         </div>
-        <form class="form-wrapper">
-            
-            <textarea name="note" class="notes-design text-area-position" rows="22" cols="156" maxlength="10000"
-                spellcheck="false"></textarea>
-                <input type="submit" class="button-input button-save-input" type="button" id="button-save" name="button-save" value="Add note">
-                <input type="submit" class="button-input button-clear-input" type="button" id="button-clear" name="button-clear" value="Clear board">
-            <!-- <div id="bar" class="text-dark bg-light">Line 1, Column 1 Chars 0, Words 1</div> -->
-
-        </form>
-    </main>
-    <div class="footer-element index-header-footer">
-        <footer id="footer-element">
-            <a href="">Author</a>
-        </footer>
+        <div class="working-positioning">
+            <div class="float-working">
+                <a href="">My notes</a>
+                <a href="">Share</a>
+                <a href="">Profile</a>
+            </div>
+        </div>
+    </header>
+</div>
+<main class="add-note-wrapper ">
+    <p class="add-note-message">Add note</p>
+    <div class="text-editing-options-position">
+        <button class="button-bold-input" type="button" id="button-bold" name="button-bold" value="">
+            <button class="button-cursive-input" type="button" id="button-cursive" name="button-cursive"
+                    value=""></button>
+            <button class="button-underline-input" type="button" id="button-underline" name="button-underline"
+                    value=""></button>
+            <button class="button-strike-input" type="button" id="button-strike" name="button-strike"
+                    value=""></button>
+        </button>
     </div>
+    <form class="form-wrapper" modelAttribute="userAddNoteFormData" id="add-note-form" >
+        <input class="title-input" type="text" id="title" name="title" placeholder="Title" autocomplete='off'>
+        <textarea name="note" id="description"class="notes-design text-area-position" rows="22" cols="156" maxlength="10000"
+                  spellcheck="false"></textarea>
+        <input type="submit" class="button-input button-save-input" type="button" id="button-addNote" name="button-save" value="Add note">
+        <input type="submit" class="button-input button-clear-input" type="button" id="button-clear" name="button-clear" value="Clear board">
+        <!-- <div id="bar" class="text-dark bg-light">Line 1, Column 1 Chars 0, Words 1</div> -->
+
+    </form>
+</main>
+<div class="footer-element index-header-footer">
+    <footer>
+        <a href="">Author</a>
+    </footer>
+</div>
 </body>
 
 </html>

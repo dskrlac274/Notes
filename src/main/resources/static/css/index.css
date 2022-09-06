@@ -1,9 +1,9 @@
 
-.wrapper {
+/*.wrapper {
   display: grid;
-  grid-template-rows: 70px auto 70px;
+  grid-template-rows: 64.75px auto 70px;
   grid-gap: 10px;
-}
+}*/
 
 .main-wrapper {
   margin-right: auto;
