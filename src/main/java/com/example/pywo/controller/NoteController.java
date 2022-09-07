@@ -48,10 +48,6 @@ public class NoteController {
         User user = userService.findUserByUsername(authentication.getName());
         return new ResponseEntity<>(noteService.getAllNotesOfCurrentUser(user), HttpStatus.OK);
     }
-    @GetMapping(value = "/output", consumes = MediaType.ALL_VALUE)
-    public void downloadPdf(long id, HttpServletResponse response) throws IOException, DocumentException {
-        exportService.export(id,response);
-    }
     @PostMapping(value = "/pdf", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> getPdf(long id, HttpServletResponse response) throws IOException, DocumentException {
         exportService.get(id,response);

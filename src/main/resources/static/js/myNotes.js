@@ -1,0 +1,78 @@
+$(document).ready(function() {
+var counter = 0;
+var addMarginToDiv = 180;
+var token = JSON.parse(localStorage.getItem('userJWT'));
+    console.log(`Authorization=Bearer ${token}`)
+    $.ajax({
+            method: 'get',
+            processData: false,
+            contentType: false,
+            cache: false,
+            /*data: formData,*/
+            enctype: 'multipart/form-data',
+            url: 'http://localhost:8080/api/notes',
+            headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+        success: function (response) {
+            console.log(response);
+
+            for(let i=0;i<response.length;i++){
+                var newDiv = document.createElement("div");
+                var mainElement = document.getElementById("main-my-notes");
+                mainElement.appendChild(newDiv);
+                var addToEndTitle = "";
+                var addToEndDescription = "";
+
+                newDiv.classList.add("note-unit");
+                if(response[i].title.length > 60 || response[i].description.length > 100){
+                    addToEndTitle = "...";
+                    addToEndDescription = "...";
+                    }
+
+                newDiv.insertAdjacentHTML( 'beforeend',
+                '<p class="title-position">Title: '+ response[i].title.substring(0, 60) + addToEndTitle + '</p>' +
+                '<p class="description-position">Description: ' + response[i].description.substring(0, 100) + addToEndDescription + '</p>' +
+                '<p class="last-modified-position">Last modified: ' + response[i].lastModifiedDate + '</p>' +
+                '<p class="created-position">Created: ' + response[i].creationDate + '</p>' +
+                '<a href="" class="redirect-to-add-note fa-plus ">></a>');
+                if(counter>0){
+                    newDiv.style.cssText += 'margin-top:' +addMarginToDiv + 'px';
+                    addMarginToDiv+=180;
+                }
+                counter++;
+            }
+            $(".redirect-to-add-note").click(function(e) {
+                e.preventDefault();
+                var formData = new FormData();
+                var divElement = $(".redirect-to-add-note")[0].parentNode;
+                console.log(divElement);
+                //formData.append("id", document.getElementById("username").value);
+
+                $.ajax({
+                            method: 'get',
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            /*data: formData,*/
+                            enctype: 'multipart/form-data',
+                            url: 'http://localhost:8080/api/notes',
+                            headers: {
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                        success: function (response) {
+                            console.log(response);
+
+                        },
+                        error: function (response) {
+                           alert("Failed....");
+                          }
+                  })
+                });
+        },
+        error: function (response) {
+           alert("Failed....");
+          }
+    })
+
+});
