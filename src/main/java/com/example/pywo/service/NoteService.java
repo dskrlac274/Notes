@@ -10,5 +10,6 @@ public interface NoteService {
     Note addNote(NoteForm noteForm);
     Note findNoteById(long id);
     List<Note> getAllNotesOfCurrentUser(User user);
+    Note getNoteOfCurrentUser(User user, long id);
     //Note deleteNote(Note note);
 }

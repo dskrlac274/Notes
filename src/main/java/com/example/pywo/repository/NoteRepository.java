@@ -15,4 +15,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     @Query("select n from Note n where n.user = ?1")
     List<Note> findByUser(User user);
+
+    @Query("select n from Note n where n.user = :user and n.id = :id")
+    Optional<Note> findByUserAndId(@Param("user") User user, @Param("id") long id);
 }

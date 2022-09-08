@@ -35,4 +35,11 @@ public class NoteServiceImpl implements NoteService{
         return noteRepository.findByUser(user);
     }
 
+    @Override
+    public Note getNoteOfCurrentUser(User user, long id) {
+        return noteRepository.findByUserAndId(user,id).orElseThrow(
+                ()->new IdDoesNotExists("Id does not exist")
+        );
+    }
+
 }

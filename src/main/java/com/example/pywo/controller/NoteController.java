@@ -48,6 +48,12 @@ public class NoteController {
         User user = userService.findUserByUsername(authentication.getName());
         return new ResponseEntity<>(noteService.getAllNotesOfCurrentUser(user), HttpStatus.OK);
     }
+    @PostMapping(value = "/note", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> getSpecificNote(long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(authentication.getName());
+        return new ResponseEntity<>(noteService.getNoteOfCurrentUser(user,id), HttpStatus.OK);
+    }
     @PostMapping(value = "/pdf", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> getPdf(long id, HttpServletResponse response) throws IOException, DocumentException {
         exportService.get(id,response);

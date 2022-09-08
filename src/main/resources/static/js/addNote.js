@@ -1,6 +1,21 @@
 $(document).ready(function() {
+//add update button
+//if search params are present deactivate add button ,activate update button
+//add update note in backend
 var token = JSON.parse(localStorage.getItem('userJWT'));
     console.log(`Authorization=Bearer ${token}`)
+    var searchParams = new URLSearchParams(window.location.search)
+    if(searchParams.has('title') || searchParams.has('description'))
+    {
+    console.log("luckyy");
+        let titleValue = searchParams.get('title');
+        let descriptionValue = searchParams.get('description');
+        var title = document.getElementById("title");
+        var description = document.getElementById("description");
+        title.value = titleValue;
+        description.value = descriptionValue;
+    }
+
     $("#button-addNote").click(function(e) {
             e.preventDefault();
             var formData = new FormData();
