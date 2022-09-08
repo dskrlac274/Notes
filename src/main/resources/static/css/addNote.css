@@ -97,9 +97,16 @@ line-height: 24px !important;
     grid-column: 1;
     width: 200px;
 }
-.button-clear-input{
+.button-update-input{
     grid-row: 5;
     grid-column: 1;
     width: 200px;
     margin-left: 250px;
+
+}
+.button-clear-input{
+    grid-row: 5;
+    grid-column: 1;
+    width: 200px;
+    margin-left: 500px;
 }

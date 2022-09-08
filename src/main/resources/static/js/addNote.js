@@ -1,19 +1,23 @@
 $(document).ready(function() {
-//add update button
-//if search params are present deactivate add button ,activate update button
 //add update note in backend
 var token = JSON.parse(localStorage.getItem('userJWT'));
     console.log(`Authorization=Bearer ${token}`)
     var searchParams = new URLSearchParams(window.location.search)
     if(searchParams.has('title') || searchParams.has('description'))
     {
-    console.log("luckyy");
+
+        document.querySelector('#button-addNote').disabled = true;
+        document.querySelector('#button-addNote').style.backgroundColor = 'grey';
         let titleValue = searchParams.get('title');
         let descriptionValue = searchParams.get('description');
         var title = document.getElementById("title");
         var description = document.getElementById("description");
         title.value = titleValue;
         description.value = descriptionValue;
+    }
+    else{
+    document.querySelector('#button-update').disabled = true;
+    document.querySelector('#button-update').style.backgroundColor = 'grey';
     }
 
     $("#button-addNote").click(function(e) {
