@@ -20,7 +20,7 @@ $(document).ready(function() {
                 paragraphFooter.appendChild(textFooter);
                 var element = document.getElementById("footer-element");
                 element.appendChild(paragraphFooter);*/
-                window.location.href = document.referrer;
+                window.location.href = "./index.html";
             },
             error: function (response) {
                if(counter == 0)

@@ -1,6 +1,8 @@
 package com.example.pywo.model;
 
 import com.example.pywo.audit.Auditable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +28,7 @@ public class UserRole {
 
 
     @ManyToMany(mappedBy = "userRoles")
+    @JsonManagedReference(value = "user-userRoles")
     private Set<User> users = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

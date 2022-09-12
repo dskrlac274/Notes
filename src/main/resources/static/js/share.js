@@ -15,7 +15,6 @@ var token = JSON.parse(localStorage.getItem('userJWT'));
                                 'Authorization': 'Bearer ' + token
                             },
                 success: function (response) {
-                //console.log(response);
                     if(counter==0)
                         for(let i=0;i<response.length;i++)
                             $("#choose-note-label").append(""+ '<option value=' + response[i].id + ' ' + '>' + response[i].title +'</option>' +"");

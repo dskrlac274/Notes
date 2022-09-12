@@ -33,9 +33,7 @@ public class LoginController {
     @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> login(@ModelAttribute("userLoginFormData") LoginForm user) {
 
-
         System.out.println("User data je:" + user.getPassword() + user.getUsername());
-
 
         Authentication authenticate = authenticationManager
                 .authenticate(

@@ -3,6 +3,7 @@ package com.example.pywo.model;
 
 import com.example.pywo.audit.Auditable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"userRoles"})
+@EqualsAndHashCode(exclude = {"userRoles", "note"})
 @Table(name = "users")
 public class User /*extends Auditable<String> */{
     @Id
@@ -25,15 +26,14 @@ public class User /*extends Auditable<String> */{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 200)
     private String firstName;
 
-    @Size(max = 200)
     private String lastName;
 
     private String email;
 
     private String username;
+
     private String password;
 
 
@@ -46,6 +46,7 @@ public class User /*extends Auditable<String> */{
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JsonBackReference(value = "user-userRoles")
     private Set<UserRole> userRoles = new HashSet<>();
 
     public User(String firstName, String lastName, String email,String username, String password,Set<UserRole> userRoles) {
@@ -55,5 +56,13 @@ public class User /*extends Auditable<String> */{
         this.username = username;
         this.password = password;
         this.userRoles = userRoles;
+    }
+    public void mapFrom(User source) {
+        this.setEmail(source.getEmail());
+        this.setFirstName(source.getFirstName());
+        this.setLastName(source.getLastName());
+        this.setPassword(source.getPassword());
+        this.setUsername(source.getUsername());
+
     }
 }

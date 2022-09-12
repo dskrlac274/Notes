@@ -70,7 +70,7 @@ public class SetupDataConfig implements ApplicationListener<ContextRefreshedEven
         alreadySetup = true;
 
     }
-    Privilege createPrivilegeOrReturnExisting(String name) {
+    public Privilege createPrivilegeOrReturnExisting(String name) {
         Privilege privilege;
 
         if(privilegeRepository.findByName(name).isPresent())
@@ -80,18 +80,18 @@ public class SetupDataConfig implements ApplicationListener<ContextRefreshedEven
         /*return privilege = privilegeRepository.findByName(name)
                 .orElse(createAndSavePrivilegeInstance(name));*/
     }
-    private Privilege createAndSavePrivilegeInstance(String name){
+    public Privilege createAndSavePrivilegeInstance(String name){
         Privilege privilege = new Privilege(name);
         return privilegeRepository.save(privilege);
     }
-    UserRole createRoleIfNotFound(String userRoleType, Set<Privilege> privileges) {
+    public UserRole createRoleIfNotFound(String userRoleType, Set<Privilege> privileges) {
         UserRole role;
         if(userRoleRepository.findByUserRoleType(userRoleType).isPresent())
             return role = userRoleRepository.findByUserRoleType(userRoleType).get();
         else return createAndSaveRoleInstance(userRoleType, privileges);
 
     }
-    private UserRole createAndSaveRoleInstance(String userRoleType, Set<Privilege> privileges) {
+    public UserRole createAndSaveRoleInstance(String userRoleType, Set<Privilege> privileges) {
         UserRole role = new UserRole(userRoleType);
         role.setPrivileges(privileges);
         return userRoleRepository.save(role);

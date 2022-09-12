@@ -45,6 +45,7 @@ public class SecurityConfig {
 
         http.headers().frameOptions().disable();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
     @Bean

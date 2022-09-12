@@ -1,7 +1,7 @@
 package com.example.pywo.service;
 
 import com.example.pywo.converter.NoteConverter;
-import com.example.pywo.exception.IdDoesNotExists;
+import com.example.pywo.exception.IdDoesNotExist;
 import com.example.pywo.form.NoteForm;
 import com.example.pywo.model.Note;
 import com.example.pywo.model.User;
@@ -28,7 +28,7 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public Note findNoteById(long id) {
         return noteRepository.findById(id).orElseThrow(
-                ()-> new IdDoesNotExists("Note ID does not exist"));
+                ()-> new IdDoesNotExist("Note ID does not exist"));
     }
     @Override
     public List<Note> getAllNotesOfCurrentUser(User user) {
@@ -38,8 +38,20 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public Note getNoteOfCurrentUser(User user, long id) {
         return noteRepository.findByUserAndId(user,id).orElseThrow(
-                ()->new IdDoesNotExists("Id does not exist")
+                ()->new IdDoesNotExist("Id does not exist")
         );
+    }
+
+    @Override
+    public Note updateNote(long id, Note noteToUpdate) {
+        System.out.println("Vrijednosti koje mapiram" + " " + noteToUpdate.toString());
+        Note note = noteRepository.findById(id).map(
+                nte->{
+                    nte.mapFrom(noteToUpdate);
+                    return noteRepository.save(nte);
+                }).orElseThrow(() -> new IdDoesNotExist("Id does not exist!"));
+        System.out.println("Updated note je:" + " " + note);
+        return note;
     }
 
 }

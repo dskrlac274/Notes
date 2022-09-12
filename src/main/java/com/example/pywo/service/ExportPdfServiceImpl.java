@@ -1,21 +1,17 @@
 package com.example.pywo.service;
 
-import com.example.pywo.exception.IdDoesNotExists;
-import com.example.pywo.form.NoteForm;
+import com.example.pywo.exception.IdDoesNotExist;
 import com.example.pywo.model.Note;
 import com.example.pywo.repository.NoteRepository;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.SneakyThrows;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.stream.Stream;
 
 @Service
 public class ExportPdfServiceImpl implements ExportService{
@@ -41,7 +37,7 @@ public class ExportPdfServiceImpl implements ExportService{
     @Override
     public void writeData(long id) throws DocumentException {
         Note noteForm = noteRepository.findById(id).orElseThrow(
-                ()->new IdDoesNotExists("Id does not exist"));
+                ()->new IdDoesNotExist("Id does not exist"));
 
         Font fontTitle = FontFactory.getFont(FontFactory.COURIER_BOLD, 24, BaseColor.BLACK);
         Font fontDescription = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);

@@ -1,25 +1,49 @@
 $(document).ready(function() {
 var token = JSON.parse(localStorage.getItem('userJWT'));
-    console.log(`Authorization=Bearer ${token}`)
-    fetch('http://localhost:8080/api/profile', {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            var firstName = document.getElementById("firstName").value = data.firstName;
-            var lastName = document.getElementById("lastName").value = data.lastName;
-            var username = document.getElementById("username").value = data.username;
-            var email = document.getElementById("email").value =  data.email;
-            var password = document.getElementById("password").value = data.password;
-            //add sliku jos (later)
-        })
-        .catch(err => {
-        console.log(err)
-        //logout
-        })
+    $.ajax({
+            method: 'get',
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+            url: 'http://localhost:8080/api/profile',
+            headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+        success: function (response) {
+           var firstName = document.getElementById("firstName").value = response.firstName;
+           var lastName = document.getElementById("lastName").value = response.lastName;
+           var username = document.getElementById("username").value = response.username;
+           var email = document.getElementById("email").value =  response.email;
+           var password = document.getElementById("password").value = response.password;
+        },
+        error: function (response) {
+           alert("Failed....");
+          }
+  })
+  $("#button-submit").click(function(e) {
+          e.preventDefault();
+          var formData = new FormData();
+          formData.append("password",document.getElementById("password").value)
+          formData.append("email", document.getElementById("email").value);
+          $.ajax({
+                  method: 'put',
+                  processData: false,
+                  contentType: false,
+                  cache: false,
+                  data: formData,
+                  enctype: 'multipart/form-data',
+                  url: 'http://localhost:8080/api/profile',
+                  headers: {
+                          'Authorization': 'Bearer ' + token
+                      },
+              success: function (response) {
+                  window.location.reload();
+              },
+              error: function (response) {
+                alert("..failed");
+                }
+          })
+      });
 
 });

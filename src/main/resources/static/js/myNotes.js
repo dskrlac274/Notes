@@ -62,7 +62,7 @@ var token = JSON.parse(localStorage.getItem('userJWT'));
                         success: function (response) {
                             console.log(response);
                             //document.getElementById(response.id).href = "./addNote.html/?title=" + response.title +"&description=" + response.description;
-                            window.location.href = "./addNote.html?title=" + response.title +"&description=" + response.description;
+                            window.location.href = "./addNote.html?id=" + response.id;
                            /* window.location.href = "./addNote.html"*/
                             /*var title = document.getElementById("title");
                             var description = document.getElementById("description");

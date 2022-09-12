@@ -1,6 +1,7 @@
 package com.example.pywo.converter;
 
 import com.example.pywo.form.NoteForm;
+import com.example.pywo.form.NoteUpdateForm;
 import com.example.pywo.model.Note;
 import com.example.pywo.model.User;
 import com.example.pywo.service.UserService;
@@ -21,5 +22,10 @@ public class NoteConverter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUsername(authentication.getName());
         return new Note(noteForm.getDescription(), noteForm.getTitle(), user);
+    }
+    public Note ConvertUpdateNoteFormToNote(NoteUpdateForm noteUpdateForm){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(authentication.getName());
+        return new Note(noteUpdateForm.getDescription(), noteUpdateForm.getTitle(), user);
     }
 }

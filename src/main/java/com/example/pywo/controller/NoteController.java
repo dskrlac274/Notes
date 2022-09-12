@@ -2,11 +2,16 @@ package com.example.pywo.controller;
 
 import com.example.pywo.converter.NoteConverter;
 import com.example.pywo.form.NoteForm;
+import com.example.pywo.form.NoteUpdateForm;
 import com.example.pywo.model.User;
 import com.example.pywo.service.ExportService;
 import com.example.pywo.service.NoteService;
 import com.example.pywo.service.UserService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.itextpdf.text.Document;
+import lombok.SneakyThrows;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.poi.hpsf.Blob;
 import org.dom4j.DocumentException;
@@ -18,11 +23,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 @RestController
 public class NoteController {
@@ -50,18 +60,34 @@ public class NoteController {
     }
     @PostMapping(value = "/note", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> getSpecificNote(long id) {
+        System.out.println("ID JE" + " " + id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUsername(authentication.getName());
         return new ResponseEntity<>(noteService.getNoteOfCurrentUser(user,id), HttpStatus.OK);
     }
+    @SneakyThrows
+    @PutMapping(value = "/note", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> updateSpecificNote(@ModelAttribute NoteUpdateForm noteUpdateForm) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(authentication.getName());
+
+
+        System.out.println("Vrijednosti su: " + noteUpdateForm.getIdToUpdate() + " " + noteUpdateForm.getTitle() + " " + noteUpdateForm.getDescription());
+
+        return new ResponseEntity<>(noteService.updateNote(noteUpdateForm.getIdToUpdate(), noteConverter.ConvertUpdateNoteFormToNote(noteUpdateForm)), HttpStatus.OK);
+    }
+
+
     @PostMapping(value = "/pdf", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> getPdf(long id, HttpServletResponse response) throws IOException, DocumentException {
         exportService.get(id,response);
 
-        String filePath = "/home/daniel/Desktop/PyWo/demo/";
+        Path path = Paths.get("Note.pdf");
         String fileName = "Note.pdf";
-        File file = new File(filePath+fileName);
+        File file = new File(String.valueOf(path.toAbsolutePath()));
         System.out.println("FILE JE:" + file);
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + fileName);
         responseHeaders.add("Content-Transfer-Encoding", "binary");

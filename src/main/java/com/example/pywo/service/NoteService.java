@@ -11,5 +11,7 @@ public interface NoteService {
     Note findNoteById(long id);
     List<Note> getAllNotesOfCurrentUser(User user);
     Note getNoteOfCurrentUser(User user, long id);
+
+    Note updateNote(long id , Note noteToUpdate);
     //Note deleteNote(Note note);
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"user"})
+@ToString(exclude = {"user"})
 public class Note extends Auditable<String> {
     @Id
     @Column(name = "id", nullable = false)
@@ -35,6 +37,10 @@ public class Note extends Auditable<String> {
         this.description = description;
         this.title = title;
         this.user = user;
+    }
+    public void mapFrom(Note source) {
+        this.setTitle(source.getTitle());
+        this.setDescription(source.getDescription());
     }
 
 }

@@ -1,41 +1,95 @@
 $(document).ready(function() {
-//add update note in backend
-var token = JSON.parse(localStorage.getItem('userJWT'));
+    var id = 0;
+    var title = 0;
+    var description = 0;
+    var titleValue = 0
+    var descriptionValue = 0;
+
+    var token = JSON.parse(localStorage.getItem('userJWT'));
     console.log(`Authorization=Bearer ${token}`)
     var searchParams = new URLSearchParams(window.location.search)
-    if(searchParams.has('title') || searchParams.has('description'))
+    if(searchParams.has('id'))
     {
 
         document.querySelector('#button-addNote').disabled = true;
         document.querySelector('#button-addNote').style.backgroundColor = 'grey';
-        let titleValue = searchParams.get('title');
-        let descriptionValue = searchParams.get('description');
-        var title = document.getElementById("title");
-        var description = document.getElementById("description");
-        title.value = titleValue;
-        description.value = descriptionValue;
-    }
-    else{
-    document.querySelector('#button-update').disabled = true;
-    document.querySelector('#button-update').style.backgroundColor = 'grey';
-    }
+        id = searchParams.get('id');
+        var formData = new FormData();
+        formData.append("id", id);
 
-    $("#button-addNote").click(function(e) {
-            e.preventDefault();
-            var formData = new FormData();
-            formData.append("title", document.getElementById("title").value);
-            formData.append("description",document.getElementById("description").value)
-            $.ajax({
+        $.ajax({
                     method: 'post',
                     processData: false,
                     contentType: false,
                     cache: false,
                     data: formData,
                     enctype: 'multipart/form-data',
-                    url: 'http://localhost:8080/api/addNote',
+                    url: 'http://localhost:8080/api/note',
                     headers: {
                                 'Authorization': 'Bearer ' + token
                             },
+                success: function (response) {
+                   title = document.getElementById("title");
+                   description = document.getElementById("description");
+                   titleValue = response.title;
+                   descriptionValue = response.description;
+                   title.value = titleValue;
+                   description.value = descriptionValue;
+                },
+                error: function (response) {
+                   alert("Failed....");
+                  }
+          })
+    }
+    else{
+        document.querySelector('#button-update').disabled = true;
+        document.querySelector('#button-update').style.backgroundColor = 'grey';
+    }
+
+    $("#button-update").click(function(e) {
+            e.preventDefault();
+            titleValue = document.getElementById("title").value;
+            descriptionValue = document.getElementById("description").value;
+            var formData = new FormData();
+            formData.append("idToUpdate", id);
+            formData.append("title", titleValue);
+            formData.append("description", descriptionValue);
+
+            $.ajax({
+                method: 'put',
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: formData,
+                enctype: 'multipart/form-data',
+                url: 'http://localhost:8080/api/note',
+                headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                success: function (response) {
+                    window.location.href = document.referrer;
+                },
+                error: function (response) {
+                   alert("Failed....");
+                  }
+              })
+    });
+    $("#button-addNote").click(function(e) {
+            e.preventDefault();
+            var formData = new FormData();
+            formData.append("title", document.getElementById("title").value);
+            formData.append("description",document.getElementById("description").value)
+            $.ajax({
+                method: 'post',
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: formData,
+                enctype: 'multipart/form-data',
+                url: 'http://localhost:8080/api/addNote',
+                headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
                 success: function (response) {
                     window.location.href = document.referrer;
                 },
