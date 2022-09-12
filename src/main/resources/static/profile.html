@@ -13,6 +13,7 @@
     <script src="./js/profile.js"></script>
 
 
+
 </head>
 <body class="wrapper">
     <div class="header-element index-header-footer">
@@ -35,8 +36,10 @@
     </div>
     <main class="profile-wrapper">
         <p class="profile-message">My profile</p>
-        <img class="frame-position" src="assets/frame3.webp">
+        <img id="user-profile-image" class="frame-position" src="assets/frame3.webp">
         <form class="form-wrapper">
+            <input class="button-image-poistion button-input inputfile" type="file" id="button-image"  name ="button-image" value="Change image">
+            <label for="button-image" class ="button-image-poistion ">Choose a file</label>
             <label class="first-name-label" for="firstName">First name:</label>
             <input class="first-name-input" type="text" id="firstName" name="firstName" disabled>
             <label class="last-name-label" for="lastName">Last name:</label>

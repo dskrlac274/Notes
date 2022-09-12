@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,20 @@ public class UserController {
 
 
         return new ResponseEntity<>(userService.updateUser(oldUserDetails, userConverter.convertProfileUpdateFormToUser(profileUpdateForm)),HttpStatus.OK);
+    }
+    @PostMapping(value = "/image",consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<Byte[]> handleImagePost(@ModelAttribute MultipartFile file){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(auth.getName());
+
+        return new ResponseEntity<>(userService.saveImageFile(user,file),HttpStatus.OK);
+    }
+    @GetMapping(value = "/image",consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<Byte[]> handleImageGet(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(auth.getName());
+
+        return new ResponseEntity<>(userService.getImageFile(user),HttpStatus.OK);
     }
 
 }

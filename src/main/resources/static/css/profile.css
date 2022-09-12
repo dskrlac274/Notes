@@ -30,76 +30,110 @@
 .form-wrapper {
     display: grid;
     grid-row: 3;
-    grid-template-rows: 220px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 15px;
+    grid-template-rows: 220px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 30px 15px 30px 15px;
     grid-template-columns: 50px 200px 200px;
     /*zadnji 30 je i za canpxcel changes i za submit changes*/
 }
 
 .first-name-label {
-    grid-row: 2;
+    grid-row: 4;
     grid-column: 2;
     padding-left: 40px;
 }
 
 .first-name-input {
-    grid-row: 3;
+    grid-row: 5;
     grid-column: 2;
 
 }
 
 .last-name-label {
-    grid-row: 5;
+    grid-row: 7;
     grid-column: 2;
 
 
 }
 
 .last-name-input {
-    grid-row: 6;
-    grid-column: 2;
-
-
-}
-
-.username-label {
     grid-row: 8;
     grid-column: 2;
 
 
 }
 
+.username-label {
+    grid-row: 10;
+    grid-column: 2;
+
+
+}
+
 .username-input {
-    grid-row: 9;
+    grid-row: 11;
     grid-column: 2;
 
 
 }
 
 .email-label {
-    grid-row: 11;
+    grid-row: 13;
     grid-column: 2;
 
 }
 
 .email-input {
-    grid-row: 12;
-    grid-column: 2;
-
-}
-
-.password-label {
     grid-row: 14;
     grid-column: 2;
 
 }
 
+.password-label {
+    grid-row: 16;
+    grid-column: 2;
+
+}
+
 .password-input {
-    grid-row: 15;
+    grid-row: 17;
     grid-column: 2;
 
 }
 
 .button-submit-input {
-    grid-row: 17;
+    grid-row: 19;
     grid-column: 2;
+}
+.button-image-poistion{
+    grid-row: 2;
+    grid-column: 2;
+}
+.inputfile {
+	width: 0px;
+	height: 0px;
+	opacity: 0;
+	overflow: hidden;
+}
+.inputfile + label {
+    background-color: #0095ff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
 }

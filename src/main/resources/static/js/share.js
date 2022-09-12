@@ -1,6 +1,9 @@
 $(document).ready(function() {
 var counter = 0;
 var token = JSON.parse(localStorage.getItem('userJWT'));
+if(token== null){
+            window.location.href = "./login.html"
+        }
     console.log(`Authorization=Bearer ${token}`)
     $("#choose-note-label").focus(function(e) {
             e.preventDefault();

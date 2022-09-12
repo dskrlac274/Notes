@@ -36,6 +36,8 @@ public class User /*extends Auditable<String> */{
 
     private String password;
 
+    @Lob
+    private Byte[] image;
 
     //add image
     //add image to constructor

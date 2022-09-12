@@ -1,5 +1,8 @@
 $(document).ready(function() {
 var token = JSON.parse(localStorage.getItem('userJWT'));
+if(token== null){
+            window.location.href = "./login.html"
+        }
     $.ajax({
             method: 'get',
             processData: false,
@@ -21,6 +24,27 @@ var token = JSON.parse(localStorage.getItem('userJWT'));
            alert("Failed....");
           }
   })
+    $.ajax({
+          method: 'get',
+          processData: false,
+          contentType: false,
+          cache: false,
+          enctype: 'multipart/form-data',
+          url: 'http://localhost:8080/api/image',
+          headers: {
+                  'Authorization': 'Bearer ' + token
+              },
+      success: function (response) {
+          if(response != ""){
+           document.getElementById("user-profile-image").src = "data:image/png;base64," +
+            btoa(String.fromCharCode.apply(null, new Uint8Array(response)));
+          }
+
+      },
+      error: function (response) {
+        alert("..failed");
+        }
+})
   $("#button-submit").click(function(e) {
           e.preventDefault();
           var formData = new FormData();
@@ -45,5 +69,32 @@ var token = JSON.parse(localStorage.getItem('userJWT'));
                 }
           })
       });
+      $("#button-image").on('change', function (e) {
+
+                e.preventDefault();
+                var formData = new FormData();
+                jQuery.each(jQuery('#button-image')[0].files, function(i, file) {
+                    formData.append('file', file);
+                });
+                $.ajax({
+                        method: 'post',
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        data: formData,
+                        enctype: 'multipart/form-data',
+                        url: 'http://localhost:8080/api/image',
+                        headers: {
+                                'Authorization': 'Bearer ' + token
+                            },
+                    success: function (response) {
+                        document.getElementById("user-profile-image").src = "data:image/png;base64," +
+                        btoa(String.fromCharCode.apply(null, new Uint8Array(response)));
+                    },
+                    error: function (response) {
+                      alert("..failed");
+                      }
+                })
+            });
 
 });

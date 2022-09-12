@@ -6,6 +6,10 @@ $(document).ready(function() {
     var descriptionValue = 0;
 
     var token = JSON.parse(localStorage.getItem('userJWT'));
+    alert(token);
+    if(token== null){
+            window.location.href = "./login.html"
+        }
     console.log(`Authorization=Bearer ${token}`)
     var searchParams = new URLSearchParams(window.location.search)
     if(searchParams.has('id'))

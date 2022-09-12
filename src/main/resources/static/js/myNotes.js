@@ -3,6 +3,9 @@ var counter = 0;
 var index = 0;
 var addMarginToDiv = 180;
 var token = JSON.parse(localStorage.getItem('userJWT'));
+if(token== null){
+            window.location.href = "./login.html"
+        }
     console.log(`Authorization=Bearer ${token}`)
     $.ajax({
             method: 'get',
