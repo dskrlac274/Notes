@@ -29,7 +29,8 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
+    @Autowired
+    private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -39,11 +40,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/login.html, /").permitAll();
+        http
+                .csrf().disable()
+                .formLogin().loginPage("/login.html").permitAll().defaultSuccessUrl("/index.html").and()
+                .authorizeRequests().antMatchers("/profile.html", "/myNotes.html", "/share.html").authenticated().and()
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index.html?logout=true")
+                        .logoutSuccessHandler(myLogoutSuccessHandler)
+                        .invalidateHttpSession(true)
+                        .deleteCookies("userJWT"));
 
-        http.headers().frameOptions().disable();
+                http.headers().frameOptions().disable();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
