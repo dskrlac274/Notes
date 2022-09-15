@@ -1,5 +1,6 @@
 package com.example.pywo.controller;
 
+import com.example.pywo.config.PythonScriptRunner;
 import com.example.pywo.converter.NoteConverter;
 import com.example.pywo.form.NoteForm;
 import com.example.pywo.form.NoteUpdateForm;
@@ -13,6 +14,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.itextpdf.text.Document;
 import lombok.SneakyThrows;
 import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.poi.hpsf.Blob;
 import org.dom4j.DocumentException;
 import org.springframework.core.io.InputStreamResource;
@@ -32,6 +36,8 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @RestController
@@ -105,6 +111,23 @@ public class NoteController {
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
+    }
+    private String resolvePythonScriptPath(String path){
+        File file = new File(path);
+        return file.getAbsolutePath();
+    }
+    @SneakyThrows
+    @GetMapping(value = "/python", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> pythonRunner()  {
+        /*String command = "python3" + " " + resolvePythonScriptPath("PyWo.py");
+        System.out.println(command);*/
+        Process p = Runtime.getRuntime().exec("python3 /home/daniel/Desktop/PyWo/demo/src/main/resources/static/js/PyWo.py");
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin", "*");
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body("Python script started");
     }
 
 }

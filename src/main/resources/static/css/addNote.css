@@ -46,8 +46,10 @@ button:hover{
     width: 20px;
 
 }
-textarea{
+#description{
     resize: none;
+    border: solid 1px;
+    border-radius: 4px;
 }
 .button-underline-input{
     background-image: url('../assets/under4.webp');
@@ -77,6 +79,8 @@ line-height: 24px !important;
 .title-input{
     grid-row: 1;
     grid-column: 1;
+    border: solid 1px;
+    border-radius: 4px;
 }
 .text-area-position{
     grid-row: 3;
@@ -109,4 +113,9 @@ line-height: 24px !important;
     grid-column: 1;
     width: 200px;
     margin-left: 500px;
+}
+span
+{
+    color:red;
+    text-decoration:underline;
 }

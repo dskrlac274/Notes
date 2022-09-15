@@ -4,10 +4,88 @@ $(document).ready(function() {
     var description = 0;
     var titleValue = 0
     var descriptionValue = 0;
+    var wordsInTextArea = [];
+    var word = "";
 
+/*.curly-underline {
+  text-decoration: underline wavy red;
+}*/
+function demo(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function sleep() {
+        await demo(100000);
+}
+
+ $('#description').on('input', function(e) {
+    var lastCharacter = this.textContent.charAt(this.textContent.length-1);
+    var wordInput = e.originalEvent.data;
+     word += wordInput;
+
+    if(lastCharacter.charCodeAt(0) == 160){
+        wordsInTextArea.push(word);
+        word = "";
+        var originHeaders = new Headers();
+
+         originHeaders.append("Access-Control-Allow-Origin", "/*")
+         originHeaders.append("Access-Control-Allow-Headers", "Content-Type")
+         originHeaders.append("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        $.ajax({
+              method: 'get',
+              processData: false,
+              cache: false,
+              contentType: "application/json",
+              crossDomain: true,
+              url: 'http://localhost:8080/api/python',
+              headers: {
+                      'Authorization': 'Bearer ' + token,
+                      'Access-Control-Allow-Origin': 'http://localhost:8081/test',
+                      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+                  },
+          success: function (response) {
+          console.log(response)
+          var formData = new FormData();
+          formData.append("word", wordsInTextArea[wordsInTextArea.length - 1]);
+                window.setTimeout(function(){
+                       $.ajax({
+                                           method: 'post',
+                                           crossDomain: true,
+                                           processData: false,
+                                           cache: false,
+                                           url: 'http://localhost:8081/test',
+                                           data: wordsInTextArea[wordsInTextArea.length - 1],
+                                           headers: {
+                                             'Access-Control-Allow-Origin': '*',
+                                             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                                             'Content-Type': 'application/json'
+                                            },
+                                       success: function (response) {
+                                       console.log(response)
+                                       if(response == "False"){
+                                            console.log(wordsInTextArea[wordsInTextArea.length - 1])
+                                        //wordsInTextArea[wordsInTextArea.length - 1] = '<span style="text-decoration: underline wavy red;" >' + wordsInTextArea[wordsInTextArea.length - 1] + '</span>';
+                                        $('#description').html($('#description').html().replace(wordsInTextArea[wordsInTextArea.length - 1], "<span style='color: red;'>wrd</span>"));
+                                           }
+                                       },
+                                       error: function (response) {
+                                          alert("Failed....");
+                                         }
+                                 })
+
+                                  }, 300);
+
+          },
+          error: function (response) {
+             alert("Failed....");
+             console.log("failed1")
+            }
+    })
+    }
+});
     var token = JSON.parse(localStorage.getItem('userJWT'));
     $("#login-header").click(function(e) {
             e.preventDefault();
+
             $.ajax({
                             method: 'post',
                             processData: false,

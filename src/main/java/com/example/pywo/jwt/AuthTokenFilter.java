@@ -31,12 +31,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("MAMAMAMAMAMAMAMAM");
         try {
              jwt = parseJwt(request);
             System.out.println("JWT JE: " + " " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt) ) {
                 System.out.println("ISTIČE ZA " + jwtUtils.getExpirationTimeFromJwtToken(jwt)  + " a trenutno je " + new Date());
+
+                response.setHeader("Access-Control-Allow-Credentials", "true");
+                response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS,PUT, DELETE");
+                response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+                response.setHeader("Access-Control-Max-Age", "");
+                response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With,");
 
                 String s1 = jwtUtils.getUserNameFromJwtToken(jwt);
                 String username = s1.substring(s1.indexOf(",") + 1);

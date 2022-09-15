@@ -13,7 +13,7 @@ public class PythonScriptRunner implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder ps = new ProcessBuilder("python", "src/main/resources/PyWo.py", thread);
+            ProcessBuilder ps = new ProcessBuilder("python", "src/main/resources/static/PyWo.py", thread);
             ps.redirectErrorStream(true);
             Process pr = ps.start();
             try (BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()))) {

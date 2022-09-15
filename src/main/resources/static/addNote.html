@@ -36,7 +36,7 @@
     </header>
 </div>
 <main class="add-note-wrapper ">
-    <p class="add-note-message">Add note</p>
+    <p class="add-note-message" id="addNote-paragraph">Add note</p>
     <div class="text-editing-options-position">
         <button class="button-bold-input" type="button" id="button-bold" name="button-bold" value="">
             <button class="button-cursive-input" type="button" id="button-cursive" name="button-cursive"
@@ -49,8 +49,8 @@
     </div>
     <form class="form-wrapper" modelAttribute="userAddNoteFormData" id="add-note-form" >
         <input class="title-input" type="text" id="title" name="title" placeholder="Title" autocomplete='off'>
-        <textarea name="note" id="description"class="notes-design text-area-position" rows="22" cols="156" maxlength="10000"
-                  spellcheck="false"></textarea>
+        <div contenteditable='true' name="note" id="description"class="notes-design text-area-position" rows="22" cols="156"
+                  spellcheck="false"></div>
         <input type="submit" class="button-input button-save-input" type="button" id="button-addNote" name="button-save" value="Add note">
         <input type="submit" class="button-input button-update-input" type="button" id="button-update" name="button-update" value="Update note">
         <input type="submit" class="button-input button-clear-input" type="button" id="button-clear" name="button-clear" value="Clear board">
