@@ -9,9 +9,6 @@ $(document).ready(function() {
     var itWasSpace = false;
     var numberOfSpacesInRow = 0;
 
-/*.curly-underline {
-  text-decoration: underline wavy red;
-}*/
 function demo(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -44,21 +41,37 @@ function replaceAt(fetchingString, index, replacement) {
     }
     return string;
 }
- $('#description').on('keydown', function(e) {
-    var wordInput = e.key
-    console.log(e.key.charCodeAt(0))
-    if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
-    e.key == "ArrowDown" || e.key == "ArrowUp"){
-        word = word;
-    }
-    else{
-         word += wordInput;
+$("#button-live-check").click(function(e) {
+    if(document.getElementById("button-live-check").getAttribute('name') == "turn-on")
+     {
+        document.getElementById("button-live-check").value = "Turn on LIVE spellcheck"
+     }
+     else{
+         document.getElementById("button-live-check").value = "Turn off LIVE spellcheck "
+         document.getElementById("button-live-check").name= "turn-on"
+     }
+});
 
+ $('#description').on('keydown', function(e) {
+ if(document.getElementById("button-live-check").getAttribute('name') == "turn-on")
+ {
+ //document.getElementById("button-live-check").name = "turn-off"
+ document.getElementById("button-live-check").value = "Turn off LIVE spellcheck"
+    var wordInput = e.key
+    console.log(e)
+
+    if(e.keyCode>32 || e.keyCode<126 ){
+    if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
+           e.key == "ArrowDown" || e.key == "ArrowUp")
+        word = word
+    else word += wordInput;
+
+        console.log(e.keyCode)
         var position = $(this).getCursorPosition();
         console.log("Position je" + position)
             var deleted = '';
             var val = document.getElementById('description').textContent;
-            if (e.keyCode== 8) {
+            if (e.keyCode == 8) {
             console.log("sad je delete gornji")
                 if (position[0] == 0)
                     deleted = '';
@@ -135,6 +148,11 @@ function replaceAt(fetchingString, index, replacement) {
                                             //wordsInTextArea[wordsInTextArea.length - 1] = wordsInTextArea[wordsInTextArea.length - 1].replace(" ", "")
                                             console.log("word je " + word)
                                             $("#description").html($("#description").html().replace(word,'<span style="text-decoration: underline wavy red;" >' + word + '</span>'));
+                                            var len = $("#description").val().length;
+                                            const input = document.getElementById('description');
+                                            input.focus();
+                                            document.execCommand('selectAll', false, null);
+                                            document.getSelection().collapseToEnd();
                                            }
                                            console.log(wordsInTextArea);
                                          word = "";
@@ -156,8 +174,9 @@ function replaceAt(fetchingString, index, replacement) {
     else{
         numberOfSpacesInRow = 0;
     }
-
+    }
 });
+
     var token = JSON.parse(localStorage.getItem('userJWT'));
     $("#login-header").click(function(e) {
             e.preventDefault();
@@ -248,7 +267,7 @@ function replaceAt(fetchingString, index, replacement) {
     $("#button-update").click(function(e) {
             e.preventDefault();
             titleValue = document.getElementById("title").value;
-            descriptionValue = document.getElementById("description").value;
+            descriptionValue = document.getElementById("description").textContent;
             var formData = new FormData();
             formData.append("idToUpdate", id);
             formData.append("title", titleValue);
@@ -273,11 +292,67 @@ function replaceAt(fetchingString, index, replacement) {
                   }
               })
     });
+    $("#button-off-line-check").click(function(e) {
+     $.ajax({
+                  method: 'get',
+                  processData: false,
+                  cache: false,
+                  contentType: "application/json",
+                  crossDomain: true,
+                  url: 'http://localhost:8080/api/python',
+                  headers: {
+                          'Authorization': 'Bearer ' + token,
+                          'Access-Control-Allow-Origin': 'http://localhost:8081/test',
+                          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+                      },
+              success: function (response) {
+              console.log(response)
+              /*var formData = new FormData();
+              formData.append("text", wordsInTextArea);*/
+                    window.setTimeout(function(){
+                           $.ajax({
+                                               method: 'post',
+                                               crossDomain: true,
+                                               processData: false,
+                                               cache: false,
+                                               url: 'http://localhost:8081/testAll',
+                                               data: document.getElementById("description").textContent,
+                                               headers: {
+                                                 'Access-Control-Allow-Origin': '*',
+                                                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                                                 'Content-Type': 'application/json'
+                                                },
+                                           success: function (response) {
+                                           response = response.replace(/'/g, '"')
+                                           var responseJson = JSON.parse(response)
+                                           //var keys = Object.keys(responseJson)
+                                          Object.keys(responseJson).forEach(function(key) {
+                                            //console.log('Key : ' + key + ', Value : ' + data[key])
+                                            if(responseJson[key] == "False")
+                                               {
+                                                    console.log(responseJson[key])
+                                                    $("#description").html($("#description").html().replace(key,'<span style="text-decoration: underline wavy red;" >' + key + '</span>'));
+
+                                               }
+                                          })
+                                           },
+                                           error: function (response) {
+                                              alert("Failed2....");
+                                             }
+                                     })
+
+                                      }, 300);
+              },
+              error: function (response) {
+                 alert("Failed1....");
+                }
+        })
+    });
     $("#button-addNote").click(function(e) {
             e.preventDefault();
             var formData = new FormData();
             formData.append("title", document.getElementById("title").value);
-            formData.append("description",document.getElementById("description").value)
+            formData.append("description",document.getElementById("description").textContent)
             $.ajax({
                 method: 'post',
                 processData: false,

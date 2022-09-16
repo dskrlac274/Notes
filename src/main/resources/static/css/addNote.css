@@ -114,6 +114,18 @@ line-height: 24px !important;
     width: 200px;
     margin-left: 500px;
 }
+.button-live-check{
+    grid-row: 5;
+    grid-column: 1;
+    width: 200px;
+    margin-left: 500px;
+}
+.button-off-line-check{
+    grid-row: 5;
+    grid-column: 1;
+    width: 200px;
+    margin-left: 750px;
+}
 span
 {
     color:red;
