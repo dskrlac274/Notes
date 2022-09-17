@@ -8,6 +8,10 @@ $(document).ready(function() {
     var word = "";
     var itWasSpace = false;
     var numberOfSpacesInRow = 0;
+    var firstCharIsSpace = false
+    var isFirst = true
+    var diff = 0
+
 
 function demo(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -23,20 +27,33 @@ $.fn.getCursorPosition = function() {
     console.log(selection)
      if (selection.rangeCount){
            let range = selection.getRangeAt(0);
-           let range2 = range.cloneRange()  // don't mess with visible cursor
-           range2.selectNodeContents(el)    // select content
+           let range2 = range.cloneRange()
+           range2.selectNodeContents(el)
            console.log(range2)
            position.start = range.startOffset
            position.end = range.endOffset
          }
-    // return both selection start and end;
     return [position.start , position.end];
 };
-function replaceAt(fetchingString, index, replacement) {
-    var string = fetchingString.substring(0, index) + replacement;
+function replaceAt(wholeString, fetchingString, index, replacement) {
     var restOfString = ""
+    var cut = 0;
+    var string = 0
+    var spaces = wholeString.split(' ').length - 1;
+    var charsBefore = wholeString.split(' ')
+    var wholeStringLength = wholeString.length
+
+    wholeStringLength = wholeStringLength - fetchingString.length;
+    if(spaces > 0) {
+        cut = index - wholeStringLength ;
+        string = fetchingString.substring(0, cut) + replacement;
+    }
+    else{
+        string = fetchingString.substring(0, index) + replacement;
+    }
     if(fetchingString.length != string.length){
-        restOfString = fetchingString.substring(index+1)
+        if(spaces >0 )restOfString = fetchingString.substring(cut+1)
+        else restOfString = fetchingString.substring(index+1)
         string = string + restOfString
     }
     return string;
@@ -45,6 +62,8 @@ $("#button-live-check").click(function(e) {
     if(document.getElementById("button-live-check").getAttribute('name') == "turn-on")
      {
         document.getElementById("button-live-check").value = "Turn on LIVE spellcheck"
+        document.getElementById("button-live-check").name= "turn-off"
+
      }
      else{
          document.getElementById("button-live-check").value = "Turn off LIVE spellcheck "
@@ -59,13 +78,17 @@ $("#button-live-check").click(function(e) {
  document.getElementById("button-live-check").value = "Turn off LIVE spellcheck"
     var wordInput = e.key
     console.log(e)
-
+    if(isFirst == true && e.keyCode == 32) {firstCharIsSpace = true}
+    isFirst = false;
     if(e.keyCode>32 || e.keyCode<126 ){
     if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
-           e.key == "ArrowDown" || e.key == "ArrowUp")
+           e.key == "ArrowDown" || e.key == "ArrowUp" || e.key == "Delete")
         word = word
     else word += wordInput;
 
+    if(e.keyCode != 32)
+    {
+        firstCharIsSpace = false
         console.log(e.keyCode)
         var position = $(this).getCursorPosition();
         console.log("Position je" + position)
@@ -79,21 +102,21 @@ $("#button-live-check").click(function(e) {
                     deleted = val.substr(position[0] - 1, 1);
                     var indexToDelete = position[0]-1;
                     console.log("brisem na:" + indexToDelete)
-                    word = replaceAt(word,indexToDelete, "")}
+                    word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")}
 
             }
-            else if (e.keyCode == 127) {
+            else if (e.keyCode == 46) {
                         console.log("sad je delete donji")
 
-                var val = $(this).val();
-                if (position[0] == position[1]) {
+                var val = document.getElementById('description').textContent;
 
                     if (position[0] === val.length)
                         deleted = '';
                     else
                         deleted = val.substr(position[0], 1);
-                        word.replaceAt(1 - position[0], "")
-                }
+                        var indexToDelete = position[0];
+                        console.log("brisem: " + indexToDelete)
+                        word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")
             }
                     console.log("deleted je " + deleted)
 
@@ -101,8 +124,9 @@ $("#button-live-check").click(function(e) {
             //word = word.replace(word.match(regex)[0],"");
 
         console.log("word jee " + word)
+        }
     }
-     if(wordInput.charCodeAt(0) == 32 && numberOfSpacesInRow < 1){
+     if(firstCharIsSpace == false && wordInput.charCodeAt(0) == 32 && numberOfSpacesInRow < 1){
         numberOfSpacesInRow++;
         var originHeaders = new Headers();
 
@@ -285,7 +309,7 @@ $("#button-live-check").click(function(e) {
                             'Authorization': 'Bearer ' + token
                         },
                 success: function (response) {
-                    window.location.href = document.referrer;
+                    window.location.href = "./myNotes.html";
                 },
                 error: function (response) {
                    alert("Failed....");
@@ -331,7 +355,8 @@ $("#button-live-check").click(function(e) {
                                             if(responseJson[key] == "False")
                                                {
                                                     console.log(responseJson[key])
-                                                    $("#description").html($("#description").html().replace(key,'<span style="text-decoration: underline wavy red;" >' + key + '</span>'));
+                                                    $("#description").html($("#description").html().replace(key,'<span class = "span-class" style="text-decoration: underline wavy red;" >' + key + '</span>' + " "));
+                                                    $( "#description" ).append("&nbsp;");
 
                                                }
                                           })
@@ -348,6 +373,10 @@ $("#button-live-check").click(function(e) {
                 }
         })
     });
+/*    $( "#description" ).focus(function() {
+           document.getElementById("description").focus();
+
+    });*/
     $("#button-addNote").click(function(e) {
             e.preventDefault();
             var formData = new FormData();
@@ -365,7 +394,7 @@ $("#button-live-check").click(function(e) {
                             'Authorization': 'Bearer ' + token
                         },
                 success: function (response) {
-                    window.location.href = document.referrer;
+                    window.location.href = "./myNotes.html";
                 },
                 error: function (response) {
                    alert("Failed....");
@@ -377,4 +406,70 @@ $("#button-live-check").click(function(e) {
             var element = document.getElementById("description");
             element.value="";
         });
+        $("#login-header").click(function(e) {
+                    if(document.getElementById("login-header").innerHTML == "Logout")
+                        {
+                                e.preventDefault();
+
+                    $.ajax({
+                                    method: 'post',
+                                    processData: false,
+                                    contentType: false,
+                                    cache: false,
+                                    enctype: 'multipart/form-data',
+                                    url: 'http://localhost:8080/api/logout',
+                                    headers: {
+                                                'Authorization': 'Bearer ' + token
+                                            },
+                                success: function (response) {
+                                    console.log(response);
+                                    localStorage.clear();
+                                    window.location.href="./index.html";
+                                },
+                                error: function (response) {
+                                   alert("Failed....");
+                                  }
+                          })
+                        }
+                      });
+
+      $("#button-music").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+                          method: 'get',
+                          processData: false,
+                          cache: false,
+                          contentType: "application/json",
+                          crossDomain: true,
+                          url: 'http://localhost:8080/api/python',
+                      success: function (response) {
+                      console.log(response)
+
+                        window.setTimeout(function(){
+                               $.ajax({
+                                                   method: 'post',
+                                                   crossDomain: true,
+                                                   processData: false,
+                                                   cache: false,
+                                                   url: 'http://localhost:8081/music',
+                                                   headers: {
+                                                     'Access-Control-Allow-Origin': '*',
+                                                     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                                                     'Content-Type': 'application/json'
+                                                    },
+                                               success: function (response) {
+                                                    console.log(response)
+                                               },
+                                               error: function (response) {
+                                                  alert("Failed2....");
+                                                 }
+                                         })
+
+                                          }, 300);
+                      },
+                      error: function (response) {
+                         alert("Failed1....");
+                        }
+                })
+      });
 });

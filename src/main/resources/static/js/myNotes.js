@@ -4,27 +4,31 @@ var index = 0;
 var addMarginToDiv = 180;
 var token = JSON.parse(localStorage.getItem('userJWT'));
 $("#login-header").click(function(e) {
-        e.preventDefault();
-        $.ajax({
-                        method: 'post',
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        enctype: 'multipart/form-data',
-                        url: 'http://localhost:8080/api/logout',
-                        headers: {
-                                    'Authorization': 'Bearer ' + token
-                                },
-                    success: function (response) {
-                        console.log(response);
-                        localStorage.clear();
-                        window.location.href="./index.html";
-                    },
-                    error: function (response) {
-                       alert("Failed....");
-                      }
-              })
-          });
+            if(document.getElementById("login-header").innerHTML == "Logout")
+                {
+                e.preventDefault();
+
+            $.ajax({
+                            method: 'post',
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            enctype: 'multipart/form-data',
+                            url: 'http://localhost:8080/api/logout',
+                            headers: {
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                        success: function (response) {
+                            console.log(response);
+                            localStorage.clear();
+                            window.location.href="./index.html";
+                        },
+                        error: function (response) {
+                           alert("Failed....");
+                          }
+                  })
+                }
+              });
 $("#login-header").click(function(e) {
         e.preventDefault();
         $.ajax({

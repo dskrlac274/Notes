@@ -1,9 +1,10 @@
 $(document).ready(function() {
     var token = JSON.parse(localStorage.getItem('userJWT'));
-    if(document.getElementById("login-header").innerHTML == "Logout")
-    {
+
     $("#login-header").click(function(e) {
-            e.preventDefault();
+            if(document.getElementById("login-header").innerHTML == "Logout")
+                {
+                e.preventDefault();
             $.ajax({
                             method: 'post',
                             processData: false,
@@ -23,8 +24,8 @@ $(document).ready(function() {
                            alert("Failed....");
                           }
                   })
+                }
               });
-      }
     $.ajax({
                     method: 'get',
                     processData: false,
