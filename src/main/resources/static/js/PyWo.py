@@ -47,6 +47,17 @@ def music():
     return "Music player --> Turn off"
 
 
+@app.route('/suggestions', methods=['POST'])
+def suggestions():
+    dictionary = enchant.request_pwl_dict("/home/daniel/Desktop/PyWo/demo/src/main/resources/static/js/index.txt")
+    wordSuggestions = []
+
+    wordToCheck = str(request.data)[1:].replace("'", "")
+    wordToCheck = wordToCheck.replace(" ", "")
+    wordSuggestions = dictionary.suggest(wordToCheck)
+    return str(wordSuggestions)
+
+
 def Play():
     song = songs_list.get(ACTIVE)
     song = '/home/daniel/Music/' + song
@@ -81,9 +92,8 @@ def tk_main():
 
     play_button = tkinter.Button(root, text="Play", width=7, command=Play)
     pause_button = tkinter.Button(root, text="Pause", width=7, command=Pause)
-    stop_button = tkinter.Button(root, text="Stop", width=7, command= Stop)
+    stop_button = tkinter.Button(root, text="Stop", width=7, command=Stop)
     resume_button = tkinter.Button(root, text="Resume", width=7, command=Resume)
-
 
     songs_list.grid(columnspan=9)
     play_button.grid(row=1, column=0)
@@ -91,11 +101,6 @@ def tk_main():
     stop_button.grid(row=1, column=2)
     resume_button.grid(row=1, column=3)
 
-    my_menu = tkinter.Menu(root)
-    root.config(menu=my_menu)
-    add_song_menu = tkinter.Menu(my_menu)
-    my_menu.add_cascade(label="Menu", menu=add_song_menu)
-    add_song_menu.add_command(label="Add songs")
     os.chdir("/home/daniel/Music/")
     songtracks = os.listdir()
     for track in songtracks:

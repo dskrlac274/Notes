@@ -11,6 +11,7 @@ $(document).ready(function() {
     var firstCharIsSpace = false
     var isFirst = true
     var diff = 0
+    var wordSugg = ""
 
 
 function demo(ms) {
@@ -72,67 +73,64 @@ $("#button-live-check").click(function(e) {
 });
 
  $('#description').on('keydown', function(e) {
+ var wordInput = e.key
+     console.log(e)
+     if(isFirst == true && e.keyCode == 32) {firstCharIsSpace = true}
+     isFirst = false;
+     if(e.keyCode>32 || e.keyCode<126 ){
+     if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
+            e.key == "ArrowDown" || e.key == "ArrowUp" || e.key == "Delete")
+         word = word
+     else word += wordInput;
+
+     if(e.keyCode != 32)
+     {
+         firstCharIsSpace = false
+         console.log(e.keyCode)
+         var position = $(this).getCursorPosition();
+         console.log("Position je" + position)
+             var deleted = '';
+             var val = document.getElementById('description').textContent;
+             if (e.keyCode == 8) {
+             console.log("sad je delete gornji")
+                 if (position[0] == 0)
+                     deleted = '';
+                 else{
+                     deleted = val.substr(position[0] - 1, 1);
+                     var indexToDelete = position[0]-1;
+                     console.log("brisem na:" + indexToDelete)
+                     word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")}
+
+             }
+             else if (e.keyCode == 46) {
+                         console.log("sad je delete donji")
+
+                 var val = document.getElementById('description').textContent;
+
+                     if (position[0] === val.length)
+                         deleted = '';
+                     else
+                         deleted = val.substr(position[0], 1);
+                         var indexToDelete = position[0];
+                         console.log("brisem: " + indexToDelete)
+                         word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")
+             }
+                     console.log("deleted je " + deleted)
+
+
+
+         console.log("word jee " + word)
+         }
+     }
  if(document.getElementById("button-live-check").getAttribute('name') == "turn-on")
  {
- //document.getElementById("button-live-check").name = "turn-off"
- document.getElementById("button-live-check").value = "Turn off LIVE spellcheck"
-    var wordInput = e.key
-    console.log(e)
-    if(isFirst == true && e.keyCode == 32) {firstCharIsSpace = true}
-    isFirst = false;
-    if(e.keyCode>32 || e.keyCode<126 ){
-    if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
-           e.key == "ArrowDown" || e.key == "ArrowUp" || e.key == "Delete")
-        word = word
-    else word += wordInput;
-
-    if(e.keyCode != 32)
-    {
-        firstCharIsSpace = false
-        console.log(e.keyCode)
-        var position = $(this).getCursorPosition();
-        console.log("Position je" + position)
-            var deleted = '';
-            var val = document.getElementById('description').textContent;
-            if (e.keyCode == 8) {
-            console.log("sad je delete gornji")
-                if (position[0] == 0)
-                    deleted = '';
-                else{
-                    deleted = val.substr(position[0] - 1, 1);
-                    var indexToDelete = position[0]-1;
-                    console.log("brisem na:" + indexToDelete)
-                    word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")}
-
-            }
-            else if (e.keyCode == 46) {
-                        console.log("sad je delete donji")
-
-                var val = document.getElementById('description').textContent;
-
-                    if (position[0] === val.length)
-                        deleted = '';
-                    else
-                        deleted = val.substr(position[0], 1);
-                        var indexToDelete = position[0];
-                        console.log("brisem: " + indexToDelete)
-                        word = replaceAt(document.getElementById('description').textContent,word,indexToDelete, "")
-            }
-                    console.log("deleted je " + deleted)
-
-            //regex = /\w\W*(deleted)\W*/;
-            //word = word.replace(word.match(regex)[0],"");
-
-        console.log("word jee " + word)
-        }
-    }
      if(firstCharIsSpace == false && wordInput.charCodeAt(0) == 32 && numberOfSpacesInRow < 1){
         numberOfSpacesInRow++;
-        var originHeaders = new Headers();
+/*        var originHeaders = new Headers();
 
-         originHeaders.append("Access-Control-Allow-Origin", "/*")
+         originHeaders.append("Access-Control-Allow-Origin", "*//*")
          originHeaders.append("Access-Control-Allow-Headers", "Content-Type")
-         originHeaders.append("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+         originHeaders.append("Access-Control-Allow-Methods", "POST, GET, OPTIONS")*/
         $.ajax({
               method: 'get',
               processData: false,
@@ -186,7 +184,7 @@ $("#button-live-check").click(function(e) {
                                          }
                                  })
 
-                                  }, 300);
+                                  }, 350);
 
           },
           error: function (response) {
@@ -199,6 +197,101 @@ $("#button-live-check").click(function(e) {
         numberOfSpacesInRow = 0;
     }
     }
+    if(document.getElementById("button-enable-suggestions").getAttribute('name') == "turn-on")
+     {
+        if(firstCharIsSpace == false && numberOfSpacesInRow < 1){
+
+            numberOfSpacesInRow++;
+            if(word.length>2){
+            $.ajax({
+                          method: 'get',
+                          processData: false,
+                          cache: false,
+                          contentType: "application/json",
+                          crossDomain: true,
+                          url: 'http://localhost:8080/api/python',
+                          headers: {
+                                  'Authorization': 'Bearer ' + token,
+                                  'Access-Control-Allow-Origin': 'http://localhost:8081/test',
+                                  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+                              },
+                      success: function (response) {
+                      console.log(response)
+                      var formData = new FormData();
+                      formData.append("word", word);
+                            window.setTimeout(function(){
+                                   $.ajax({
+                                   //ne uzeti uvijek zadnju rijec nego uzeti zadnju upisanu riječ
+                                   //reci mu da ne cita delete i spacaeove
+                                                       method: 'post',
+                                                       crossDomain: true,
+                                                       processData: false,
+                                                       cache: false,
+                                                       url: 'http://localhost:8081/suggestions',
+                                                       data: word,
+                                                       headers: {
+                                                         'Access-Control-Allow-Origin': '*',
+                                                         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                                                         'Content-Type': 'application/json'
+                                                        },
+                                                   success: function (response) {
+                                                   response = response.replace(/'/g, '"')
+                                                   response = JSON.parse(response)
+                                                   wordsInTextArea.push(word);
+                                                   console.log(response)
+
+                                                    /*<div class="dropdown">
+                                                             <span>Mouse over me</span>
+                                                             <div class="dropdown-content">
+                                                             <a href="./">Hello World!</a>
+                                                             </div>
+                                                           </div>*/
+                                                    $("#description").html($("#description").html().replace(word,''));
+
+                                                    var newDiv = document.createElement("div");
+                                                    var descriptionDiv = document.getElementById("description")
+                                                      newDiv.classList.add("dropdown");
+                                                      descriptionDiv.appendChild(newDiv);
+                                                    var newSpan = document.createElement("span");
+                                                    var spanContent = document.createTextNode(word);
+
+                                                    newSpan.appendChild(spanContent)
+                                                    newDiv.appendChild(newSpan);
+                                                    console.log("word je "+ word)
+
+
+                                                    var newDiv2 = document.createElement("div");
+                                                    newDiv2.classList.add("dropdown-content");
+                                                    newDiv.appendChild(newDiv2);
+
+
+                                                    for(let i=0;i<response.length;i++){
+                                                        var newA = document.createElement("a");
+                                                        var AContent = document.createTextNode(String(response[i]));
+                                                        newA.appendChild(AContent);
+                                                        newDiv2.appendChild(newA);
+                                                    }
+
+                                                        word = "";
+                                                   },
+                                                   error: function (response) {
+                                                      alert("Failed....");
+                                                     }
+                                             })
+
+                                              }, 350);
+                      },
+                      error: function (response) {
+                         alert("Failed....");
+                         console.log("failed1")
+                        }
+                })
+                }
+        }
+        else{
+                numberOfSpacesInRow = 0;
+            }
+     }
 });
 
     var token = JSON.parse(localStorage.getItem('userJWT'));
@@ -366,7 +459,7 @@ $("#button-live-check").click(function(e) {
                                              }
                                      })
 
-                                      }, 300);
+                                      }, 350);
               },
               error: function (response) {
                  alert("Failed1....");
@@ -465,11 +558,74 @@ $("#button-live-check").click(function(e) {
                                                  }
                                          })
 
-                                          }, 300);
+                                          }, 350);
                       },
                       error: function (response) {
                          alert("Failed1....");
                         }
                 })
       });
+      $("#button-enable-suggestions").click(function(e) {
+          if(document.getElementById("button-enable-suggestions").getAttribute('name') == "turn-on")
+           {
+              document.getElementById("button-enable-suggestions").value = "Enable suggestions"
+              document.getElementById("button-enable-suggestions").name= "turn-off"
+
+           }
+           else{
+               document.getElementById("button-enable-suggestions").value = "Disable suggestions "
+               document.getElementById("button-enable-suggestions").name= "turn-on"
+           }
+      });
+
+      /*$("#description")..on('keydown', function(e) {
+      if(document.getElementById("button-live-check").getAttribute('name') == "turn-on")
+       {
+                var wordInput2 = e.key
+
+                if(e.keyCode<=32 || e.keyCode>=126 || e.key == "ArrowLeft" || e.key == "ArrowRight" ||
+                       e.key == "ArrowDown" || e.key == "ArrowUp" || e.key == "Delete")
+                    wordSugg = wordSugg
+                else wordSugg += wordInput;
+              $.ajax({
+                    method: 'get',
+                    processData: false,
+                    cache: false,
+                    contentType: "application/json",
+                    crossDomain: true,
+                    url: 'http://localhost:8080/api/python',
+                success: function (response) {
+                console.log(response)
+                var formData = new FormData();
+                formData.append("word", word);
+                      window.setTimeout(function(){
+                             $.ajax({
+                                                 method: 'post',
+                                                 crossDomain: true,
+                                                 processData: false,
+                                                 cache: false,
+                                                 url: 'http://localhost:8081/suggestions',
+                                                 data: word,
+                                                 headers: {
+                                                   'Access-Control-Allow-Origin': '*',
+                                                   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                                                   'Content-Type': 'application/json'
+                                                  },
+                                             success: function (response) {
+
+                                             },
+                                             error: function (response) {
+                                                alert("Failed....");
+                                               }
+                                       })
+
+                                        }, 350);
+                },
+                error: function (response) {
+                   alert("Failed....");
+                   console.log("failed1")
+                  }
+          })
+          }
+          });*/
 });

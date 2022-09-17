@@ -37,7 +37,7 @@
 </div>
 <main class="add-note-wrapper ">
     <p class="add-note-message" id="addNote-paragraph">Add note</p>
-    <div class="text-editing-options-position">
+    <!--<div class="text-editing-options-position">
         <button class="button-bold-input" type="button" id="button-bold" name="button-bold" value="">
             <button class="button-cursive-input" type="button" id="button-cursive" name="button-cursive"
                     value=""></button>
@@ -46,7 +46,7 @@
             <button class="button-strike-input" type="button" id="button-strike" name="button-strike"
                     value=""></button>
         </button>
-    </div>
+    </div>-->
     <form class="form-wrapper" modelAttribute="userAddNoteFormData" id="add-note-form" >
         <input class="title-input" type="text" id="title" name="title" placeholder="Title" autocomplete='off'>
         <div contenteditable='true' name="note" id="description"class="notes-design text-area-position" spellcheck="false"></div>
@@ -54,9 +54,9 @@
         <input type="submit" class="button-input button-update-input" type="button" id="button-update" name="button-update" value="Update note">
         <input type="submit" class="button-input button-clear-input" type="button" id="button-clear" name="button-clear" value="Clear board">
         <input type="button" class="button-input button-live-check" id="button-live-check" name="turn-off" value="Turn on LIVE spellcheck">
-        <input type="button" class="button-input button-off-line-check" id="button-off-line-check" name="button-off-line-check" value="Off line spellcheck">
+        <input type="button" class="button-input button-off-line-check" id="button-off-line-check" name="button-off-line-check" value="Offline spellcheck">
         <input type="button" class="button-input button-music" id="button-music" name="button-music" value="Listen Music">
-
+        <input type="button" class="button-input button-enable-suggestions" id="button-enable-suggestions" name="turn-off" value="Enable suggestions">
         <!-- <div id="bar" class="text-dark bg-light">Line 1, Column 1 Chars 0, Words 1</div> -->
 
     </form>
