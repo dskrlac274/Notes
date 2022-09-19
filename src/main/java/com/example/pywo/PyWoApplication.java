@@ -1,12 +1,8 @@
 package com.example.pywo;
 
-import com.example.pywo.config.PythonScriptRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @SpringBootApplication
 @EnableJpaAuditing

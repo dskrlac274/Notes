@@ -61,8 +61,7 @@ public class SetupDataConfig implements ApplicationListener<ContextRefreshedEven
 
         Set<UserRole> userRoles = new HashSet<>();
         userRoles.add(createRoleIfNotFound("ROLE_USER", userPrivileges));
-        //ovo ces mozda mijenjati
-        //staviti da se role ne predaje u constructoru nego nekako drugacije vjv automatski prilikom registracije
+
         userRepository.save(
                 user =  new User("Daniel","Škrlac","email@email.com","daniel274","daniel1234",userRoles)
         );

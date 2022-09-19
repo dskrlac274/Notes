@@ -21,7 +21,6 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
             Enumeration<String> attributes = request.getSession().getAttributeNames();
             while (attributes.hasMoreElements()) {
                 String attribute = (String) attributes.nextElement();
-                System.out.println(attribute+" : "+request.getSession().getAttribute(attribute));
                 session.removeAttribute(attribute);
             }
         }

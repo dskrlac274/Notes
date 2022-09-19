@@ -33,9 +33,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
              jwt = parseJwt(request);
-            System.out.println("JWT JE: " + " " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt) ) {
-                System.out.println("ISTIČE ZA " + jwtUtils.getExpirationTimeFromJwtToken(jwt)  + " a trenutno je " + new Date());
 
                 response.setHeader("Access-Control-Allow-Credentials", "true");
                 response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS,PUT, DELETE");
@@ -46,13 +44,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 String s1 = jwtUtils.getUserNameFromJwtToken(jwt);
                 String username = s1.substring(s1.indexOf(",") + 1);
                 username.trim();
-                System.out.println("Username je:" + " " + username);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                System.out.println("User details je:" + " " + userDetails);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, new ArrayList<>());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                System.out.println("Details:" + " " + authentication.getDetails());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 

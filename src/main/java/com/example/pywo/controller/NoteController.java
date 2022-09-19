@@ -1,6 +1,5 @@
 package com.example.pywo.controller;
 
-import com.example.pywo.config.PythonScriptRunner;
 import com.example.pywo.converter.NoteConverter;
 import com.example.pywo.form.NoteForm;
 import com.example.pywo.form.NoteUpdateForm;
@@ -8,16 +7,7 @@ import com.example.pywo.model.User;
 import com.example.pywo.service.ExportService;
 import com.example.pywo.service.NoteService;
 import com.example.pywo.service.UserService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.itextpdf.text.Document;
 import lombok.SneakyThrows;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.poi.hpsf.Blob;
 import org.dom4j.DocumentException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -27,18 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 @RestController
 public class NoteController {
@@ -66,7 +50,6 @@ public class NoteController {
     }
     @PostMapping(value = "/note", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> getSpecificNote(long id) {
-        System.out.println("ID JE" + " " + id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUsername(authentication.getName());
         return new ResponseEntity<>(noteService.getNoteOfCurrentUser(user,id), HttpStatus.OK);
@@ -79,7 +62,6 @@ public class NoteController {
         User user = userService.findUserByUsername(authentication.getName());
 
 
-        System.out.println("Vrijednosti su: " + noteUpdateForm.getIdToUpdate() + " " + noteUpdateForm.getTitle() + " " + noteUpdateForm.getDescription());
 
         return new ResponseEntity<>(noteService.updateNote(noteUpdateForm.getIdToUpdate(), noteConverter.ConvertUpdateNoteFormToNote(noteUpdateForm)), HttpStatus.OK);
     }
@@ -92,7 +74,6 @@ public class NoteController {
         Path path = Paths.get("Note.pdf");
         String fileName = "Note.pdf";
         File file = new File(String.valueOf(path.toAbsolutePath()));
-        System.out.println("FILE JE:" + file);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + fileName);
@@ -102,10 +83,7 @@ public class NoteController {
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         System.out.println("Source stream je:" + " " + resource);
-        //byte[] sourceBytes = IOUtils.toByteArray(sourceStream);
-        //System.out.println("SOurceBytes je:" + " " + sourceBytes);
-        //String encodedString = Base64.getEncoder().encodeToString(sourceBytes);
-        //System.out.println("Encoded string je:" + " " + encodedString);
+
         return ResponseEntity.ok()
                 .headers(responseHeaders)
                 .contentLength(file.length())

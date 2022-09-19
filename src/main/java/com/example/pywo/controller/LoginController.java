@@ -41,9 +41,7 @@ public class LoginController {
                                 user.getUsername(), user.getPassword()
                         )
                 );
-        System.out.println("USER JE:" + " " + userService.findUserByUsername(user.getUsername()).getPassword());
         String accessToken = jwtUtil.generateAccessToken(userService.findUserByUsername(user.getUsername()));
-        System.out.println("dva");
         AuthenticationResponse response = new AuthenticationResponse(user.getUsername(),accessToken);
 
         return ResponseEntity.ok().body(response);

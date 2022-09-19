@@ -67,36 +67,11 @@ public class ExportPdfServiceImpl implements ExportService{
         response.setContentLength(baos.size());
 
         OutputStream os = response.getOutputStream();
-        /*OutputStream outputStreamBuffer = new FileOutputStream("Note.pdf");
-        baos.writeTo(outputStreamBuffer);*/
+
         baos.writeTo(os);
         os.flush();
         os.close();
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PdfWriter.getInstance(document, baos);
-        document.open();
 
-        writeHeader();
-        writeData();
-        document.close();
-
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition",  "inline");
-        response.setCharacterEncoding("UTF-8");
-        ServletOutputStream outputStream = response.getOutputStream();
-        response.setContentLength(baos.size());
-
-        outputStream.close();
-        document.close();
-        OutputStream os = response.getOutputStream();
-        baos.writeTo(os);
-        os.flush();
-        os.close();
-        // if you also want to write these bytes to a file, add:
-        OutputStream outputStreamBuffer = new FileOutputStream("Note.pdf");
-        baos.writeTo(outputStreamBuffer);
-        outputStreamBuffer.flush();
-        outputStreamBuffer.close();*/
     }
 
     @SneakyThrows
@@ -112,8 +87,6 @@ public class ExportPdfServiceImpl implements ExportService{
         writeData(id);
         document.close();
 
-       /* response.setContentType("application/pdf");
-        response.setContentLength(baos.size());*/
 
         OutputStream outputStreamBuffer = new FileOutputStream("Note.pdf");
 
